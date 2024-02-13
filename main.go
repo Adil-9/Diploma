@@ -6,16 +6,13 @@ import (
 )
 
 func main() {
-	// todos.SendRequest()
-	//check if q enabled (send request)
-	sendRequest, err := getflags.CheckIfWebRequest()
+	AllFlags := getflags.ParseAllFlags()
+	sendRequest, err := getflags.CheckIfWebRequest(AllFlags.Request, AllFlags.Name, AllFlags.Surname, AllFlags.Country)
 	if sendRequest {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
 		return
 	}
-
-	//send req with id
-	//create dict
+	//create a dictionary
 }

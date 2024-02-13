@@ -2,23 +2,14 @@ package getflags
 
 import (
 	"dimploma/todos"
+	"dimploma/variables"
 	"errors"
 	"flag"
 	"strconv"
+	"strings"
 )
 
-func CheckIfWebRequest() (bool, error) {
-	var (
-		request bool
-		name    string
-		surname string
-		country string
-	)
-	flag.BoolVar(&request, "q", false, "provide q flag if you want to send requset")
-	flag.StringVar(&name, "name", "", "provide name of person you searching info about")
-	flag.StringVar(&surname, "surname", "", "provide surname of person you searching info about")
-	flag.StringVar(&country, "country", "0", "provide country of person you searching info about")
-	flag.Parse()
+func CheckIfWebRequest(request bool, name, surname, country string) (bool, error) {
 
 	if !request {
 		return request, nil
@@ -34,4 +25,31 @@ func CheckIfWebRequest() (bool, error) {
 	}
 	todos.SendRequest(name, surname, country)
 	return true, nil
+}
+
+func ParseAllFlags() variables.AllVariables {
+	var AllFlags variables.AllVariables
+
+	flag.BoolVar(&AllFlags.Request, "q", false, "provide q flag if you want to send requset")
+	flag.StringVar(&AllFlags.Name, "name", "", "provide name of person you searching info about")
+	flag.StringVar(&AllFlags.Surname, "surname", "", "provide surname of person you searching info about")
+	flag.StringVar(&AllFlags.Country, "country", "0", "provide country of person you searching info about")
+
+	var strs string
+	flag.StringVar(&strs, "strings", "", "provide string to add strings")
+	AllFlags.StringVar = splitStrings(strs)
+
+	var ints string
+	flag.StringVar(&ints, "integers", "", "provide integers to add integers")
+	AllFlags.StringVar = splitStrings(ints)
+
+	flag.BoolVar(&AllFlags.SpecialCharAll, "country", false, "provide -c for all special charachters")
+	flag.Parse()
+
+	return AllFlags
+}
+
+func splitStrings(str string) []string {
+	splitted := strings.Split(str, ",")
+	return splitted
 }

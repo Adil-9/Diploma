@@ -7,3 +7,13 @@ type PersonWebData struct {
 	City       string
 	VkID       string
 }
+
+type AllVariables struct {
+	Request        bool
+	Name           string
+	Surname        string
+	Country        string
+	StringVar      []string
+	IntegerVar     []string
+	SpecialCharAll bool
+}
